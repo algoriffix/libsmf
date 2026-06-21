@@ -8,9 +8,12 @@ Makefile
 Makefile.in
 aclocal.m4
 api
+ar-lib
 autom4te.cache
+compile
 config.*
 configure
+configure~
 depcomp
 install-sh
 libtool
