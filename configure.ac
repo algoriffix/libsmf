@@ -9,6 +9,7 @@ AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
 AC_PROG_CC
+AM_PROG_AR
 CFLAGS="$CFLAGS -W -Wall -Wno-sign-compare"  # that last one's a project for another day
 LT_INIT
 
