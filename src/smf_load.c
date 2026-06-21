@@ -62,7 +62,7 @@ next_chunk(smf_t *smf)
 	assert(smf->file_buffer_length > 0);
 	assert(smf->next_chunk_offset >= 0);
 
-	if (smf->next_chunk_offset + sizeof(struct chunk_header_struct) >= smf->file_buffer_length) {
+	if ((size_t)smf->next_chunk_offset + sizeof(struct chunk_header_struct) >= (size_t)smf->file_buffer_length) {
 		g_critical("SMF warning: no more chunks left.");
 		return (NULL);
 	}
@@ -284,6 +284,7 @@ expected_sysex_length(const unsigned char status, const unsigned char *second_by
 	int sysex_length, len;
 
 	assert(status == 0xF0);
+	(void)status;
 
 	if (buffer_length < 3) {
 		g_critical("SMF error: end of buffer in expected_sysex_length().");
@@ -634,7 +635,7 @@ smf_event_is_textual(const smf_event_t *event)
 	if (event->midi_buffer_length < 4)
 		return (0);
 
-	if (event->midi_buffer[3] < 1 && event->midi_buffer[3] > 9)
+	if (event->midi_buffer[3] < 1 || event->midi_buffer[3] > 9)
 		return (0);
 
 	return (1);
@@ -839,7 +840,7 @@ load_file_into_buffer(void **file_buffer, int *file_buffer_length, const char *f
 		return (-5);
 	}
 
-	if (fread(*file_buffer, 1, *file_buffer_length, stream) != *file_buffer_length) {
+	if (fread(*file_buffer, 1, (size_t)*file_buffer_length, stream) != (size_t)*file_buffer_length) {
 		g_critical("fread(3) failed: %s", strerror(errno));
 
 		return (-6);

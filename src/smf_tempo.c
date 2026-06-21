@@ -258,7 +258,7 @@ smf_get_tempo_by_number(const smf_t *smf, int number)
 {
 	assert(number >= 0);
 
-	if (number >= smf->tempo_array->len)
+	if ((guint)number >= smf->tempo_array->len)
 		return (NULL);
 
 	return (g_ptr_array_index(smf->tempo_array, number));

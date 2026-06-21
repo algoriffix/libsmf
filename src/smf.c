@@ -75,6 +75,7 @@ smf_new(void)
 
 	cantfail = smf_set_format(smf, 0);
 	assert(!cantfail);
+	(void)cantfail;
 
 	smf_init_tempo(smf);
 
@@ -168,6 +169,7 @@ smf_add_track(smf_t *smf, smf_track_t *track)
 	if (smf->number_of_tracks > 1) {
 		cantfail = smf_set_format(smf, 1);
 		assert(!cantfail);
+		(void)cantfail;
 	}
 }
 

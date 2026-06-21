@@ -166,6 +166,8 @@ format_vlq(unsigned char *buf, int length, unsigned long value)
 	int i;
 	unsigned long buffer;
 
+	(void)length;
+
 	/* Taken from http://www.borg.com/~jglatt/tech/midifile/vari.htm */
 	buffer = value & 0x7F;
 
@@ -220,6 +222,7 @@ smf_event_new_textual(int type, const char *text)
 	copied_length = snprintf((char *)event->midi_buffer + vlq_length + 2, event->midi_buffer_length - vlq_length - 2, "%s", text);
 
 	assert(copied_length == text_length);
+	(void)copied_length;
 
 	event->midi_buffer_length = 2 + vlq_length + text_length;
 
@@ -406,7 +409,7 @@ write_file(smf_t *smf, const char *file_name)
 		return (-1);
 	}
 
-	if (fwrite(smf->file_buffer, 1, smf->file_buffer_length, stream) != smf->file_buffer_length) {
+	if (fwrite(smf->file_buffer, 1, (size_t)smf->file_buffer_length, stream) != (size_t)smf->file_buffer_length) {
 		g_critical("fwrite(3) failed: %s", strerror(errno));
 
 		return (-2);
